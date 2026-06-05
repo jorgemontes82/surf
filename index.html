@@ -333,31 +333,52 @@ async function fetchTides(idPorto, from, to) {
   try {
     const json = await fetchWithCorsProxy(url);
     const ex = [];
-    console.log(`Puerto ${idPorto} — respuesta cruda:`, JSON.stringify(json).substring(0, 500));
+    console.log(`Puerto ${idPorto} — JSON completo:`, JSON.stringify(json));
 
-    // La API puede devolver los datos en diferentes estructuras
-    // Intentamos varias:
-    const mareas = json.mareas || json.predicion || json;
+    // La API de MeteoGalicia devuelve algo así:
+    // { mareas: [ { data: "2026-06-05", listaMareas: [
+    //     { hora: "03:15", altura: "1.2", tipoMarea: "Baixamar", idTipoMarea: "0" },
+    //     ...
+    // ]}]}
+    // El campo 'data' del día NO tiene hora — la hora está en 'hora' de cada marea
+    const mareas = json.mareas || json.predicion || (Array.isArray(json) ? json : null);
+    if(!mareas) { console.warn('Estructura JSON no reconocida'); }
 
     if(Array.isArray(mareas)) {
       for(const dia of mareas) {
+        // Extraer fecha del día (puede ser "data", "dataPredicion", "fecha")
+        const diaRaw = dia.data || dia.dataPredicion || dia.fecha || dia.date;
+        const diaDate = parseMareasDay(diaRaw);
+        if(!diaDate) { console.warn('Día sin fecha:', dia); continue; }
+
         const lista = dia.listaMareas || dia.mareas || dia.extremos || [];
         for(const m of lista) {
-          const dateRaw = m.data || m.fecha || m.dateTime || m.time;
-          const d = parseMareasDate(dateRaw);
-          if(!d) continue;
-          const height = parseFloat(m.altura || m.height || m.value || 0);
-          // tipo: 0=bajamar, 1=pleamar
-          const type = m.idTipoMarea !== undefined ? m.idTipoMarea :
-                       (m.tipoMarea === 'Pleamar' || m.tipoMarea === 'Preamar' || m.tipo === 1) ? 1 : 0;
-          ex.push({ time: d.getTime(), height, type, dateObj: d });
+          // La hora viene en campo separado
+          const horaRaw = m.hora || m.time || m.horaUTC || m.hour;
+          const fullDate = combineDayAndHour(diaDate, horaRaw);
+          if(!fullDate) { console.warn('Marea sin hora:', m); continue; }
+
+          // Altura (puede venir como string con coma o punto)
+          const alturaRaw = m.altura || m.height || m.value;
+          const height = parseFloat(String(alturaRaw).replace(',', '.'));
+
+          // Tipo: 1=pleamar, 0=bajamar
+          let type;
+          if(m.idTipoMarea !== undefined) type = parseInt(m.idTipoMarea);
+          else if(m.tipoMarea) {
+            const t = m.tipoMarea.toLowerCase();
+            type = (t.includes('plea') || t.includes('prea')) ? 1 : 0;
+          }
+          else type = 0;
+
+          ex.push({ time: fullDate.getTime(), height, type, dateObj: fullDate });
         }
       }
     }
 
     ex.sort((a,b) => a.time - b.time);
-    console.log(`Puerto ${idPorto} — ${ex.length} extremos parseados:`,
-      ex.map(e => `${e.dateObj.toLocaleString('es-ES')} ${e.type===1?'PM':'BM'} ${e.height}m`));
+    console.log(`Puerto ${idPorto} — ${ex.length} extremos:`,
+      ex.map(e => `${e.dateObj.toLocaleString('es-ES')} ${e.type===1?'PM':'BM'} ${e.height}m`).join(' | '));
     tideCache[idPorto] = ex;
     return ex;
   } catch(e) {
@@ -365,6 +386,47 @@ async function fetchTides(idPorto, from, to) {
     tideCache[idPorto] = [];
     return [];
   }
+}
+
+// Parsea solo el día (sin hora)
+function parseMareasDay(raw) {
+  if(!raw) return null;
+  if(typeof raw === 'string') {
+    // ISO sin hora: "2026-06-05"
+    let m = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if(m) return new Date(parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3]));
+    // dd/mm/yyyy
+    m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+    if(m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]));
+    // Fallback: cualquier fecha parseable
+    const d = new Date(raw);
+    if(!isNaN(d.getTime())) { d.setHours(0,0,0,0); return d; }
+  }
+  return null;
+}
+
+// Combina un día con una hora "HH:MM" o similar
+function combineDayAndHour(day, horaRaw) {
+  if(!day) return null;
+  if(!horaRaw) return null;
+  const result = new Date(day);
+  if(typeof horaRaw === 'string') {
+    const m = horaRaw.match(/(\d{1,2}):(\d{2})/);
+    if(m) {
+      result.setHours(parseInt(m[1]), parseInt(m[2]), 0, 0);
+      return result;
+    }
+  }
+  if(typeof horaRaw === 'number') {
+    // a veces la hora viene como minutos del día
+    if(horaRaw < 1440) {
+      result.setHours(Math.floor(horaRaw/60), horaRaw%60, 0, 0);
+      return result;
+    }
+    // o como timestamp
+    return new Date(horaRaw);
+  }
+  return null;
 }
 
 function tideHeightAt(ex, ts) {
