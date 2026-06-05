@@ -294,23 +294,34 @@ function parseMareasDate(raw) {
   return null;
 }
 
-// Lista de proxies CORS a probar (en orden, si uno falla intenta el siguiente)
+// Lista de proxies CORS gratuitos a probar (en orden, si uno falla intenta el siguiente)
+// Corsfix y AllOrigins funcionan desde GitHub Pages sin clave
 const CORS_PROXIES = [
-  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://corsfix.com/${url}`,
   url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://cors.x2u.in/${url}`
 ];
 
 async function fetchWithCorsProxy(targetUrl) {
   let lastErr = null;
   for(const proxy of CORS_PROXIES) {
+    const proxyUrl = proxy(targetUrl);
     try {
-      const res = await fetch(proxy(targetUrl));
-      if(!res.ok) { lastErr = new Error(`HTTP ${res.status}`); continue; }
+      console.log('Probando proxy:', proxyUrl);
+      const res = await fetch(proxyUrl);
+      if(!res.ok) { lastErr = new Error(`HTTP ${res.status} en ${proxyUrl}`); continue; }
       const text = await res.text();
+      if(!text || text.trim().startsWith('<')) {
+        lastErr = new Error('Respuesta no JSON');
+        continue;
+      }
       try { return JSON.parse(text); }
-      catch(e) { lastErr = new Error('JSON inválido'); continue; }
-    } catch(e) { lastErr = e; }
+      catch(e) { lastErr = new Error('JSON inválido: ' + text.substring(0,100)); continue; }
+    } catch(e) {
+      lastErr = e;
+      console.warn('Proxy falló:', proxyUrl, e.message);
+    }
   }
   throw lastErr || new Error('Todos los proxies fallaron');
 }
