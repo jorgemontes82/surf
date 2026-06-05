@@ -294,14 +294,33 @@ function parseMareasDate(raw) {
   return null;
 }
 
+// Lista de proxies CORS a probar (en orden, si uno falla intenta el siguiente)
+const CORS_PROXIES = [
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+];
+
+async function fetchWithCorsProxy(targetUrl) {
+  let lastErr = null;
+  for(const proxy of CORS_PROXIES) {
+    try {
+      const res = await fetch(proxy(targetUrl));
+      if(!res.ok) { lastErr = new Error(`HTTP ${res.status}`); continue; }
+      const text = await res.text();
+      try { return JSON.parse(text); }
+      catch(e) { lastErr = new Error('JSON inválido'); continue; }
+    } catch(e) { lastErr = e; }
+  }
+  throw lastErr || new Error('Todos los proxies fallaron');
+}
+
 async function fetchTides(idPorto, from, to) {
   if(tideCache[idPorto]) return tideCache[idPorto];
   const fmt = d => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
   const url = `https://servizos.meteogalicia.gal/mgrss/predicion/mareas/jsonMareas.action?dataIni=${fmt(from)}&dataFin=${fmt(to)}&idPorto=${idPorto}`;
   try {
-    const res = await fetch(url);
-    if(!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
+    const json = await fetchWithCorsProxy(url);
     const ex = [];
     console.log(`Puerto ${idPorto} — respuesta cruda:`, JSON.stringify(json).substring(0, 500));
 
