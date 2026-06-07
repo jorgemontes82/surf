@@ -245,14 +245,16 @@ function scoreWindDir(dir,speed,[ideal,tol]) {
 }
 function scorePeriod(a,min){if(a>=min)return 100;if(a>=min-2)return 65;if(a>=min-4)return 40;return 20;}
 
+// Puntuación de marea STRICTA: si está fuera del rango, no se surfea
 function scoreTide(percentile, idealTide) {
   if(percentile == null) return 50;
   if(idealTide === "any") return 100;
   const [lo, hi] = TIDE_RANGES[idealTide] || TIDE_RANGES["any"];
   if(percentile >= lo && percentile <= hi) return 100;
   const dist = percentile < lo ? lo - percentile : percentile - hi;
-  if(dist < 0.10) return 65;
-  return 15;
+  if(dist < 0.08) return 60;  // cerca pero no del todo
+  if(dist < 0.15) return 30;
+  return 5;  // muy fuera de rango
 }
 
 function scoreBeach(b, c) {
@@ -261,13 +263,22 @@ function scoreBeach(b, c) {
   const wd = scoreWindDir(c.windDir, c.windSpeed, b.windDir);
   const td = scoreTide(c.tidePercentile, b.tide);
   const pd = scorePeriod(c.period, b.period);
+
+  // MAREA ELIMINATORIA: si está fuera de rango, la playa NO es surfeable
+  // y el total queda en zona roja independientemente del resto
+  if(td < 60 && b.tide !== "any") {
+    return { total: Math.min(td, 30), breakdown:{ waveHeight:wh, swellDir:sd, windDir:wd, tide:td, period:pd } };
+  }
+
   const factors = [wh, sd, wd, td, pd];
   const mn = Math.min(...factors);
   const avg = factors.reduce((a,b)=>a+b,0) / factors.length;
   let total = Math.round(mn * 0.65 + avg * 0.35);
-  if(td < 50 && b.tide !== "any") total = Math.min(td, 35);
+
+  // Otros factores eliminatorios
   if(sd < 30) total = Math.min(total, 40);
   if(wh < 25) total = Math.min(total, 35);
+
   return { total, breakdown:{ waveHeight:wh, swellDir:sd, windDir:wd, tide:td, period:pd } };
 }
 
