@@ -32,7 +32,7 @@
     min-height: 100vh;
     padding: 20px 16px 40px;
   }
-  header { max-width: 900px; margin: 0 auto 28px; text-align: center; }
+  header { max-width: 900px; margin: 0 auto 24px; text-align: center; }
   h1 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(48px, 10vw, 72px);
@@ -59,32 +59,69 @@
   .day-btn.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 700; }
   .day-btn .day-name { display: block; font-size: 11px; opacity: 0.7; }
   .day-btn .day-num { display: block; font-size: 18px; font-weight: 700; }
-  .tide-strip {
-    max-width: 900px; margin: 0 auto 18px;
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+
+  /* Sección de resumen general por horas */
+  .summary-section {
+    max-width: 900px; margin: 0 auto 22px;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
     padding: 14px 16px;
-    font-size: 13px;
   }
-  .tide-strip-label {
+  .summary-title {
     color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px;
-    font-size: 10px; margin-bottom: 10px;
+    font-size: 11px; margin-bottom: 12px;
   }
-  .tide-events { display: flex; gap: 16px; flex-wrap: wrap; }
+  .tide-events { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
   .tide-event {
     display: flex; align-items: center; gap: 8px;
-    background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 12px;
+    background: rgba(0,0,0,0.2); border-radius: 10px; padding: 8px 12px;
+    flex: 1; min-width: 130px;
   }
-  .tide-event-icon { font-size: 18px; }
+  .tide-event-icon { font-size: 20px; line-height: 1; }
   .tide-event-icon.high { color: var(--accent); }
   .tide-event-icon.low { color: var(--mid); }
-  .tide-event-info { line-height: 1.3; }
-  .tide-event-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+  .tide-event-type { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
   .tide-event-type.high { color: var(--accent); }
   .tide-event-type.low { color: var(--mid); }
-  .tide-event-data { font-size: 14px; font-weight: 500; }
+  .tide-event-time { font-size: 14px; font-weight: 700; }
+
+  /* Tabla horaria */
+  .hourly-table-wrap {
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin: 0 -2px;
+  }
+  .hourly-table-wrap::-webkit-scrollbar { display: none; }
+  .hourly-table {
+    display: flex; gap: 4px; padding: 2px;
+  }
+  .hourly-col {
+    flex: 0 0 auto; width: 56px; text-align: center;
+    background: rgba(0,0,0,0.2); border-radius: 8px; padding: 8px 4px;
+  }
+  .hourly-col-hour {
+    font-size: 12px; font-weight: 700; color: var(--text);
+    padding-bottom: 6px; border-bottom: 1px solid var(--border);
+    margin-bottom: 6px;
+  }
+  .hourly-row { display: flex; flex-direction: column; gap: 3px; align-items: center; padding-top: 2px; }
+  .hourly-emoji { font-size: 14px; }
+  .hourly-val { font-size: 11px; color: var(--text-dim); line-height: 1.1; }
+  .hourly-val.strong { color: var(--text); font-weight: 500; }
+
+  /* Playas */
+  .section-title {
+    max-width: 900px; margin: 0 auto 12px;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    font-size: 12px; color: var(--text-dim);
+    padding-left: 4px;
+  }
   .container { max-width: 900px; margin: 0 auto; }
-  .loading, .error-msg { text-align: center; padding: 40px 20px; color: var(--text-dim); line-height: 1.6; }
+  .loading, .error-msg, .no-beaches { text-align: center; padding: 30px 20px; color: var(--text-dim); line-height: 1.6; }
   .error-msg { color: var(--bad); }
+  .no-beaches {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px 20px;
+  }
   .beach-card {
     background: var(--bg-card); border: 1px solid var(--border);
     border-radius: 18px; margin-bottom: 14px; overflow: hidden;
@@ -98,14 +135,12 @@
   .score-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 12px currentColor; }
   .score-dot.good { background: var(--good); color: var(--good); }
   .score-dot.mid { background: var(--mid); color: var(--mid); }
-  .score-dot.bad { background: var(--bad); color: var(--bad); }
   .beach-info { flex: 1; min-width: 0; }
   .beach-name { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1.5px; line-height: 1; margin-bottom: 4px; }
   .beach-verdict { font-size: 13px; color: var(--text-dim); }
   .score-badge { font-family: 'Bebas Neue', sans-serif; font-size: 28px; letter-spacing: 1px; line-height: 1; flex-shrink: 0; }
   .score-badge.good { color: var(--good); }
   .score-badge.mid { color: var(--mid); }
-  .score-badge.bad { color: var(--bad); }
   .chevron { color: var(--text-dim); transition: transform 0.2s; font-size: 12px; }
   .beach-card.expanded .chevron { transform: rotate(180deg); }
   .beach-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
@@ -118,7 +153,7 @@
   .hourly-scroll::-webkit-scrollbar { display: none; }
   .hour-cell {
     flex: 0 0 auto; width: 62px; text-align: center; border-radius: 10px;
-    padding: 8px 4px; background: rgba(0,0,0,0.2); transition: background 0.2s;
+    padding: 8px 4px; background: rgba(0,0,0,0.2);
   }
   .hour-cell.best { background: rgba(46,204,113,0.15); border: 1px solid rgba(46,204,113,0.3); }
   .hour-time { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
@@ -127,7 +162,7 @@
   .hour-score.mid { color: var(--mid); }
   .hour-score.bad { color: var(--bad); }
   .hour-detail { font-size: 10px; color: var(--text-dim); line-height: 1.4; }
-  .hour-tide-height { font-size: 10px; color: var(--accent-dim); font-weight: 500; }
+  .hour-tide { font-size: 10px; color: var(--accent-dim); font-weight: 500; }
   .best-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); margin: 10px 0 6px; }
   .reason { font-size: 13px; padding: 5px 0; display: flex; gap: 10px; line-height: 1.4; }
   .reason-icon { flex-shrink: 0; font-weight: 700; min-width: 14px; }
@@ -140,12 +175,6 @@
     text-transform: uppercase; letter-spacing: 1px;
     background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid var(--border);
   }
-  .debug-box {
-    margin-top: 12px; padding: 8px 10px;
-    background: rgba(0,0,0,0.3); border-radius: 6px;
-    font-size: 11px; color: var(--text-dim); line-height: 1.6;
-    display: none;
-  }
 </style>
 </head>
 <body>
@@ -156,45 +185,49 @@
 </header>
 
 <div class="day-selector" id="daySelector"></div>
-<div class="tide-strip" id="tideStrip" style="display:none;"></div>
+<div id="summarySection"></div>
+<div class="section-title" id="beachesTitle" style="display:none;">Playas surfeables</div>
 <div class="container" id="container">
-  <div class="loading">Cargando previsión del mar y mareas…</div>
+  <div class="loading">Cargando previsión…</div>
 </div>
 
 <script>
-// ============================================================
-// PLAYAS
-// ============================================================
 const BEACHES = [
-  { id:"bastiagueiro", name:"Bastiagueiro", lat:43.336, lon:-8.343, tidePort:1,
+  { id:"bastiagueiro", name:"Bastiagueiro", lat:43.336, lon:-8.343,
     waveHeight:[1.5,3.0], swellDir:[315,35], windDir:[180,60], tide:"mid-high", period:8,
     level:"Principiante" },
-  { id:"santa-cristina", name:"Santa Cristina", lat:43.348, lon:-8.336, tidePort:1,
+  { id:"santa-cristina", name:"Santa Cristina", lat:43.348, lon:-8.336,
     waveHeight:[2.5,5.0], swellDir:[315,30], windDir:[180,50], tide:"low", period:10,
     level:"Intermedio" },
-  { id:"orzan-riazor", name:"Orzán / Riazor", lat:43.373, lon:-8.418, tidePort:1,
+  { id:"orzan-riazor", name:"Orzán / Riazor", lat:43.373, lon:-8.418,
     waveHeight:[1.3,2.5], swellDir:[315,40], windDir:[180,70], tide:"low", period:9,
     level:"Intermedio" },
-  { id:"sabon", name:"Sabón", lat:43.319, lon:-8.503, tidePort:1,
+  { id:"sabon", name:"Sabón", lat:43.319, lon:-8.503,
     waveHeight:[0.6,2.5], swellDir:[295,35], windDir:[90,60], tide:"any", period:8,
     level:"Principiante" },
-  { id:"barranan", name:"Barrañán", lat:43.293, lon:-8.557, tidePort:1,
+  { id:"barranan", name:"Barrañán", lat:43.293, lon:-8.557,
     waveHeight:[0.7,2.5], swellDir:[315,30], windDir:[180,50], tide:"mid", period:9,
     level:"Intermedio" },
-  { id:"razo", name:"Razo", lat:43.244, lon:-8.687, tidePort:8,
+  { id:"razo", name:"Razo", lat:43.244, lon:-8.687,
     waveHeight:[0.6,3.5], swellDir:[315,45], windDir:[180,50], tide:"mid", period:9,
     level:"Intermedio" },
-  { id:"malpica", name:"Malpica", lat:43.323, lon:-8.811, tidePort:8,
+  { id:"malpica", name:"Malpica", lat:43.323, lon:-8.811,
     waveHeight:[1.2,2.5], swellDir:[315,30], windDir:[180,50], tide:"low", period:10,
     level:"Intermedio" },
-  { id:"doninos", name:"Doniños", lat:43.498, lon:-8.330, tidePort:14,
+  { id:"doninos", name:"Doniños", lat:43.498, lon:-8.330,
     waveHeight:[0.8,3.0], swellDir:[285,40], windDir:[90,50], tide:"mid", period:9,
     level:"Intermedio" }
 ];
 
-// ============================================================
-// PUNTUACIÓN — LA MAREA PESA MUCHO
-// ============================================================
+const TIDE_RANGES = {
+  "low":      [0.00, 0.30],
+  "mid-low":  [0.15, 0.50],
+  "mid":      [0.30, 0.70],
+  "mid-high": [0.50, 0.85],
+  "high":     [0.70, 1.00],
+  "any":      [0.00, 1.00]
+};
+
 function scoreWaveHeight(a,[min,max]) {
   if(a>=min&&a<=max)return 100;
   if(a<min){const r=a/min;if(r>.7)return 60;if(r>.5)return 35;return 15;}
@@ -210,277 +243,85 @@ function scoreWindDir(dir,speed,[ideal,tol]) {
   let s;if(d<=tol)s=100;else if(d<=tol+30)s=70;else if(d<=90)s=45;else s=20;
   if(speed>35)s=Math.min(s,30);else if(speed>25)s=Math.min(s,55);return s;
 }
+function scorePeriod(a,min){if(a>=min)return 100;if(a>=min-2)return 65;if(a>=min-4)return 40;return 20;}
 
-// MAREA: puntuación basada en la ALTURA REAL en metros
-// A Coruña: rango típico de 0.5m (bajamar vivas) a 4.5m (pleamar vivas)
-// La marea es ELIMINATORIA: si está fuera de rango, no se puede surfear
-function scoreTideByHeight(heightM, idealTide) {
-  if(heightM == null) return 50; // sin datos → neutro (no penaliza)
-  if(idealTide === "any") return 100; // playas que aguantan cualquier marea
-  // Rangos de altura óptima para cada tipo de marea en A Coruña
-  const ranges = {
-    "low":      [0,   1.8],
-    "mid-low":  [1.0, 2.3],
-    "mid":      [1.5, 3.0],
-    "mid-high": [2.2, 3.8],
-    "high":     [3.0, 5.0]
-  };
-  // Margen de tolerancia: dentro del rango óptimo + 0.4m de "casi"
-  const TOLERANCE = 0.4;
-  const [lo, hi] = ranges[idealTide];
-  if(heightM >= lo && heightM <= hi) return 100;       // óptimo
-  const dist = heightM < lo ? lo - heightM : heightM - hi;
-  if(dist < TOLERANCE) return 70;                       // cerca, surfeable
-  // Fuera de tolerancia: NO se puede surfear
+function scoreTide(percentile, idealTide) {
+  if(percentile == null) return 50;
+  if(idealTide === "any") return 100;
+  const [lo, hi] = TIDE_RANGES[idealTide] || TIDE_RANGES["any"];
+  if(percentile >= lo && percentile <= hi) return 100;
+  const dist = percentile < lo ? lo - percentile : percentile - hi;
+  if(dist < 0.10) return 65;
   return 15;
 }
 
-function scorePeriod(a,min){if(a>=min)return 100;if(a>=min-2)return 65;if(a>=min-4)return 40;return 20;}
-
-function scoreBeach(b,c) {
-  const wh=scoreWaveHeight(c.waveHeight,b.waveHeight);
-  const sd=scoreSwellDir(c.swellDir,b.swellDir);
-  const wd=scoreWindDir(c.windDir,c.windSpeed,b.windDir);
-  const td=scoreTideByHeight(c.tideHeight, b.tide);
-  const pd=scorePeriod(c.period,b.period);
-
+function scoreBeach(b, c) {
+  const wh = scoreWaveHeight(c.waveHeight, b.waveHeight);
+  const sd = scoreSwellDir(c.swellDir, b.swellDir);
+  const wd = scoreWindDir(c.windDir, c.windSpeed, b.windDir);
+  const td = scoreTide(c.tidePercentile, b.tide);
+  const pd = scorePeriod(c.period, b.period);
   const factors = [wh, sd, wd, td, pd];
   const mn = Math.min(...factors);
   const avg = factors.reduce((a,b)=>a+b,0) / factors.length;
   let total = Math.round(mn * 0.65 + avg * 0.35);
-
-  // MAREA ELIMINATORIA: si está fuera de rango (score < 50),
-  // la playa no es surfeable, da igual el resto
-  if(td < 50 && b.tide !== "any") {
-    total = Math.min(td, 35); // forzamos a rojo
-  }
-  // Si la dirección del mar está totalmente equivocada,
-  // tampoco se surfea (el mar no llega a la playa)
+  if(td < 50 && b.tide !== "any") total = Math.min(td, 35);
   if(sd < 30) total = Math.min(total, 40);
-  // Olas demasiado pequeñas: tampoco se surfea
   if(wh < 25) total = Math.min(total, 35);
-
-  return{total, breakdown:{waveHeight:wh,swellDir:sd,windDir:wd,tide:td,period:pd}};
+  return { total, breakdown:{ waveHeight:wh, swellDir:sd, windDir:wd, tide:td, period:pd } };
 }
 
 function clsScore(s){if(s>=75)return"good";if(s>=50)return"mid";return"bad";}
 function clsLabel(s){if(s>=75)return"Buena";if(s>=50)return"Aceptable";return"Mala";}
 
-// ============================================================
-// MAREAS — MeteoGalicia JSON
-// ============================================================
-const tideCache={};
-
-function parseMareasDate(raw) {
-  // MeteoGalicia puede devolver:
-  //   - "2026-06-05T10:30:00" (ISO sin zona)
-  //   - "2026-06-05 10:30:00"
-  //   - timestamp numérico
-  //   - "05/06/2026 10:30" (dd/mm/yyyy)
-  if(typeof raw === 'number') return new Date(raw);
-  if(typeof raw === 'string') {
-    // Intento ISO directo
-    let d = new Date(raw);
-    if(!isNaN(d.getTime())) return d;
-    // Intento dd/mm/yyyy HH:MM
-    const m = raw.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/);
-    if(m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]), parseInt(m[4]), parseInt(m[5]));
-    // Intento yyyy-mm-dd HH:MM:SS
-    const m2 = raw.replace(' ','T');
-    d = new Date(m2);
-    if(!isNaN(d.getTime())) return d;
-  }
-  console.warn('No se pudo parsear fecha de marea:', raw);
-  return null;
+async function fetchAllForBeach(beach) {
+  const marineUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${beach.lat}&longitude=${beach.lon}` +
+    `&hourly=wave_height,wave_direction,wave_period,sea_level_height_msl` +
+    `&forecast_days=5&timezone=Europe%2FMadrid`;
+  const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${beach.lat}&longitude=${beach.lon}` +
+    `&hourly=wind_speed_10m,wind_direction_10m` +
+    `&forecast_days=5&timezone=Europe%2FMadrid&wind_speed_unit=kmh`;
+  const [marine, weather] = await Promise.all([
+    fetch(marineUrl).then(r => r.json()),
+    fetch(weatherUrl).then(r => r.json())
+  ]);
+  return { marine, weather };
 }
 
-// Lista de proxies CORS gratuitos a probar (en orden, si uno falla intenta el siguiente)
-// Corsfix y AllOrigins funcionan desde GitHub Pages sin clave
-const CORS_PROXIES = [
-  url => `https://corsfix.com/${url}`,
-  url => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
-  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
-  url => `https://cors.x2u.in/${url}`
-];
+function findTideExtremes(times, heights) {
+  const extremes = [];
+  for(let i=1; i<heights.length-1; i++) {
+    const h = heights[i];
+    if(h == null) continue;
+    const prev = heights[i-1], next = heights[i+1];
+    if(prev == null || next == null) continue;
+    if(h > prev && h > next) extremes.push({ time: new Date(times[i]), height: h, type: 1 });
+    else if(h < prev && h < next) extremes.push({ time: new Date(times[i]), height: h, type: 0 });
+  }
+  return extremes;
+}
 
-async function fetchWithCorsProxy(targetUrl) {
-  let lastErr = null;
-  for(const proxy of CORS_PROXIES) {
-    const proxyUrl = proxy(targetUrl);
-    try {
-      console.log('Probando proxy:', proxyUrl);
-      const res = await fetch(proxyUrl);
-      if(!res.ok) { lastErr = new Error(`HTTP ${res.status} en ${proxyUrl}`); continue; }
-      const text = await res.text();
-      if(!text || text.trim().startsWith('<')) {
-        lastErr = new Error('Respuesta no JSON');
-        continue;
-      }
-      try { return JSON.parse(text); }
-      catch(e) { lastErr = new Error('JSON inválido: ' + text.substring(0,100)); continue; }
-    } catch(e) {
-      lastErr = e;
-      console.warn('Proxy falló:', proxyUrl, e.message);
+function buildDailyTideRanges(times, heights) {
+  const ranges = {};
+  for(let i=0; i<times.length; i++) {
+    const h = heights[i];
+    if(h == null) continue;
+    const day = new Date(times[i]).toDateString();
+    if(!ranges[day]) ranges[day] = { min: h, max: h };
+    else {
+      if(h < ranges[day].min) ranges[day].min = h;
+      if(h > ranges[day].max) ranges[day].max = h;
     }
   }
-  throw lastErr || new Error('Todos los proxies fallaron');
+  return ranges;
 }
 
-async function fetchTides(idPorto, from, to) {
-  if(tideCache[idPorto]) return tideCache[idPorto];
-  const fmt = d => `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-  const url = `https://servizos.meteogalicia.gal/mgrss/predicion/mareas/jsonMareas.action?dataIni=${fmt(from)}&dataFin=${fmt(to)}&idPorto=${idPorto}`;
-  try {
-    const json = await fetchWithCorsProxy(url);
-    const ex = [];
-    console.log(`Puerto ${idPorto} — JSON completo:`, JSON.stringify(json));
-
-    // La API de MeteoGalicia devuelve algo así:
-    // { mareas: [ { data: "2026-06-05", listaMareas: [
-    //     { hora: "03:15", altura: "1.2", tipoMarea: "Baixamar", idTipoMarea: "0" },
-    //     ...
-    // ]}]}
-    // El campo 'data' del día NO tiene hora — la hora está en 'hora' de cada marea
-    const mareas = json.mareas || json.predicion || (Array.isArray(json) ? json : null);
-    if(!mareas) { console.warn('Estructura JSON no reconocida'); }
-
-    if(Array.isArray(mareas)) {
-      for(const dia of mareas) {
-        // Extraer fecha del día (puede ser "data", "dataPredicion", "fecha")
-        const diaRaw = dia.data || dia.dataPredicion || dia.fecha || dia.date;
-        const diaDate = parseMareasDay(diaRaw);
-        if(!diaDate) { console.warn('Día sin fecha:', dia); continue; }
-
-        const lista = dia.listaMareas || dia.mareas || dia.extremos || [];
-        for(const m of lista) {
-          // La hora viene en campo separado
-          const horaRaw = m.hora || m.time || m.horaUTC || m.hour;
-          const fullDate = combineDayAndHour(diaDate, horaRaw);
-          if(!fullDate) { console.warn('Marea sin hora:', m); continue; }
-
-          // Altura (puede venir como string con coma o punto)
-          const alturaRaw = m.altura || m.height || m.value;
-          const height = parseFloat(String(alturaRaw).replace(',', '.'));
-
-          // Tipo: 1=pleamar, 0=bajamar
-          let type;
-          if(m.idTipoMarea !== undefined) type = parseInt(m.idTipoMarea);
-          else if(m.tipoMarea) {
-            const t = m.tipoMarea.toLowerCase();
-            type = (t.includes('plea') || t.includes('prea')) ? 1 : 0;
-          }
-          else type = 0;
-
-          ex.push({ time: fullDate.getTime(), height, type, dateObj: fullDate });
-        }
-      }
-    }
-
-    ex.sort((a,b) => a.time - b.time);
-    console.log(`Puerto ${idPorto} — ${ex.length} extremos:`,
-      ex.map(e => `${e.dateObj.toLocaleString('es-ES')} ${e.type===1?'PM':'BM'} ${e.height}m`).join(' | '));
-    tideCache[idPorto] = ex;
-    return ex;
-  } catch(e) {
-    console.warn(`Mareas puerto ${idPorto}:`, e);
-    tideCache[idPorto] = [];
-    return [];
-  }
+function tidePercentile(height, dayRange) {
+  if(height == null || !dayRange) return null;
+  if(dayRange.max === dayRange.min) return 0.5;
+  return (height - dayRange.min) / (dayRange.max - dayRange.min);
 }
 
-// Parsea solo el día (sin hora)
-function parseMareasDay(raw) {
-  if(!raw) return null;
-  if(typeof raw === 'string') {
-    // ISO sin hora: "2026-06-05"
-    let m = raw.match(/^(\d{4})-(\d{2})-(\d{2})/);
-    if(m) return new Date(parseInt(m[1]), parseInt(m[2])-1, parseInt(m[3]));
-    // dd/mm/yyyy
-    m = raw.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-    if(m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]));
-    // Fallback: cualquier fecha parseable
-    const d = new Date(raw);
-    if(!isNaN(d.getTime())) { d.setHours(0,0,0,0); return d; }
-  }
-  return null;
-}
-
-// Combina un día con una hora "HH:MM" o similar
-function combineDayAndHour(day, horaRaw) {
-  if(!day) return null;
-  if(!horaRaw) return null;
-  const result = new Date(day);
-  if(typeof horaRaw === 'string') {
-    const m = horaRaw.match(/(\d{1,2}):(\d{2})/);
-    if(m) {
-      result.setHours(parseInt(m[1]), parseInt(m[2]), 0, 0);
-      return result;
-    }
-  }
-  if(typeof horaRaw === 'number') {
-    // a veces la hora viene como minutos del día
-    if(horaRaw < 1440) {
-      result.setHours(Math.floor(horaRaw/60), horaRaw%60, 0, 0);
-      return result;
-    }
-    // o como timestamp
-    return new Date(horaRaw);
-  }
-  return null;
-}
-
-function tideHeightAt(ex, ts) {
-  if(!ex.length) return null;
-  let prev=null, next=null;
-  for(let i=0; i<ex.length; i++) {
-    if(ex[i].time <= ts) prev = ex[i];
-    if(ex[i].time >= ts && !next) next = ex[i];
-  }
-  if(!prev && !next) return null;
-  if(!prev) return next.height;
-  if(!next) return prev.height;
-  if(prev === next) return prev.height;
-  // Interpolación coseno (la marea sigue curva sinusoidal)
-  const r = (ts - prev.time) / (next.time - prev.time);
-  const cr = (1 - Math.cos(r * Math.PI)) / 2;
-  return prev.height + (next.height - prev.height) * cr;
-}
-
-function tideStateLabel(heightM) {
-  if(heightM == null) return "—";
-  if(heightM < 1.3) return "Baja";
-  if(heightM < 2.0) return "Media-baja";
-  if(heightM < 2.8) return "Media";
-  if(heightM < 3.5) return "Media-alta";
-  return "Alta";
-}
-
-// ============================================================
-// OLAS Y VIENTO — Open-Meteo (con fallback)
-// ============================================================
-async function fetchForecast(beach) {
-  async function tryFetch(lat, lon) {
-    const mUrl = `https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=wave_height,wave_direction,wave_period&forecast_days=5&timezone=Europe%2FMadrid`;
-    const wUrl = `https://api.open-meteo.com/v1/forecast?latitude=${beach.lat}&longitude=${beach.lon}&hourly=wind_speed_10m,wind_direction_10m&forecast_days=5&timezone=Europe%2FMadrid&wind_speed_unit=kmh`;
-    const [mRes, wRes] = await Promise.all([fetch(mUrl).then(r=>r.json()), fetch(wUrl).then(r=>r.json())]);
-    return {marine:mRes, weather:wRes};
-  }
-  // Intento 1: coordenadas exactas
-  let fc = await tryFetch(beach.lat, beach.lon);
-  if(fc.marine?.hourly?.time) return fc;
-  // Intento 2: un poco mar adentro
-  console.warn(`${beach.name}: retry offshore`);
-  fc = await tryFetch(beach.lat, beach.lon - 0.15);
-  if(fc.marine?.hourly?.time) return fc;
-  // Intento 3: coordenadas genéricas costa A Coruña
-  console.warn(`${beach.name}: using generic coords`);
-  fc = await tryFetch(43.40, -8.50);
-  return fc;
-}
-
-// ============================================================
-// ESTADO Y RENDER
-// ============================================================
 let allForecasts = {};
 let availableDays = [];
 let selectedDay = 0;
@@ -488,105 +329,204 @@ let selectedDay = 0;
 function getHourlyForDay(beach, dayIndex) {
   const fc = allForecasts[beach.id];
   if(!fc?.marine?.hourly?.time) return [];
-  const times = fc.marine.hourly.time;
+  const M = fc.marine.hourly;
+  const W = fc.weather.hourly;
   const day = availableDays[dayIndex];
+  const dayKey = day.toDateString();
+  const dayRange = fc.dailyTideRanges[dayKey];
   const hours = [];
-  for(let i=0; i<times.length; i++) {
-    const t = new Date(times[i]);
-    if(t.toDateString() !== day.toDateString()) continue;
+  for(let i=0; i<M.time.length; i++) {
+    const t = new Date(M.time[i]);
+    if(t.toDateString() !== dayKey) continue;
     const h = t.getHours();
     if(h < 7 || h > 21) continue;
-    const wh = fc.marine.hourly.wave_height[i];
+    const wh = M.wave_height[i];
     if(wh == null) continue;
-    const th = tideHeightAt(fc.tides, t.getTime());
+    const tideH = M.sea_level_height_msl ? M.sea_level_height_msl[i] : null;
+    const tidePct = tidePercentile(tideH, dayRange);
     const c = {
       waveHeight: wh,
-      swellDir: fc.marine.hourly.wave_direction[i],
-      period: fc.marine.hourly.wave_period[i],
-      windSpeed: fc.weather.hourly.wind_speed_10m[i],
-      windDir: fc.weather.hourly.wind_direction_10m[i],
-      tideHeight: th,
+      swellDir: M.wave_direction[i],
+      period: M.wave_period[i],
+      windSpeed: W.wind_speed_10m[i],
+      windDir: W.wind_direction_10m[i],
+      tideHeight: tideH,
+      tidePercentile: tidePct,
       time: t
     };
     const r = scoreBeach(beach, c);
-    hours.push({conditions:c, result:r, time:t});
+    hours.push({ conditions:c, result:r, time:t });
   }
   return hours;
 }
 
-function compass(deg){const d=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];return d[Math.round(deg/22.5)%16];}
+function compass(deg){
+  const d=['N','NNE','NE','ENE','E','ESE','SE','SSE','S','SSW','SW','WSW','W','WNW','NW','NNW'];
+  return d[Math.round(deg/22.5)%16];
+}
 
-function buildReasons(b,c,bd) {
-  return[
-    {key:'waveHeight',label:'Olas',val:`${c.waveHeight.toFixed(1)} m`},
-    {key:'swellDir',label:'Dir. mar',val:`${compass(c.swellDir)}`},
-    {key:'windDir',label:'Viento',val:`${compass(c.windDir)} ${Math.round(c.windSpeed)} km/h`},
-    {key:'tide',label:'Marea',val:`${tideStateLabel(c.tideHeight)}${c.tideHeight!=null?` · ${c.tideHeight.toFixed(2)} m`:' · sin datos'}`},
-    {key:'period',label:'Periodo',val:`${c.period.toFixed(1)} s`}
-  ].map(i=>{
-    const s=bd[i.key],cl=clsScore(s);
-    return{icon:cl==='good'?'✓':cl==='mid'?'~':'✗',label:i.label,value:i.val,cls:cl};
+function tideStateLabel(pct) {
+  if(pct == null) return "—";
+  if(pct < 0.2) return "Baja";
+  if(pct < 0.4) return "Media-baja";
+  if(pct < 0.6) return "Media";
+  if(pct < 0.8) return "Media-alta";
+  return "Alta";
+}
+
+function tideEmoji(pct) {
+  if(pct == null) return "·";
+  if(pct < 0.2) return "▼";
+  if(pct < 0.4) return "↘";
+  if(pct < 0.6) return "—";
+  if(pct < 0.8) return "↗";
+  return "▲";
+}
+
+function buildReasons(b, c, bd) {
+  return [
+    { key:'waveHeight', label:'Olas', val:`${c.waveHeight.toFixed(1)} m` },
+    { key:'swellDir',   label:'Dir. mar', val:`${compass(c.swellDir)}` },
+    { key:'windDir',    label:'Viento', val:`${compass(c.windDir)} ${Math.round(c.windSpeed)} km/h` },
+    { key:'tide',       label:'Marea', val:`${tideStateLabel(c.tidePercentile)}` },
+    { key:'period',     label:'Periodo', val:`${c.period.toFixed(1)} s` }
+  ].map(i => {
+    const s = bd[i.key], cl = clsScore(s);
+    return { icon: cl==='good'?'✓':cl==='mid'?'~':'✗', label:i.label, value:i.val, cls:cl };
   });
 }
 
-function renderTideStrip() {
-  const strip = document.getElementById('tideStrip');
-  const corunaBeach = BEACHES.find(b=>b.tidePort===1);
-  const fc = allForecasts[corunaBeach.id];
-  if(!fc?.tides?.length) {
-    strip.style.display = 'block';
-    strip.innerHTML = `<div class="tide-strip-label">Mareas A Coruña</div><div style="color:var(--bad);font-size:12px;">No se pudieron cargar las mareas. Comprueba la consola del navegador.</div>`;
-    return;
+// ============================================================
+// RESUMEN GENERAL POR HORAS DEL DÍA
+// ============================================================
+// Usa la previsión de la primera playa que tenga datos como referencia
+// (para A Coruña, todas las playas dan datos casi idénticos de mareas/mar/viento)
+function buildDaySummary(dayIndex) {
+  const day = availableDays[dayIndex];
+  const dayKey = day.toDateString();
+  // Buscamos cualquier playa con datos completos
+  let refFc = null;
+  for(const b of BEACHES) {
+    const fc = allForecasts[b.id];
+    if(fc?.marine?.hourly?.time && fc.marine.hourly.sea_level_height_msl) {
+      refFc = fc;
+      break;
+    }
   }
+  if(!refFc) return null;
+
+  const M = refFc.marine.hourly;
+  const W = refFc.weather.hourly;
+  const dayRange = refFc.dailyTideRanges[dayKey];
+  const tideExtremes = refFc.tideExtremes.filter(e => e.time.toDateString() === dayKey);
+
+  // Horas a mostrar (cada 3h de 6 a 21)
+  const HOURS_TO_SHOW = [6, 9, 12, 15, 18, 21];
+  const hourlyData = [];
+  for(let i=0; i<M.time.length; i++) {
+    const t = new Date(M.time[i]);
+    if(t.toDateString() !== dayKey) continue;
+    if(!HOURS_TO_SHOW.includes(t.getHours())) continue;
+    hourlyData.push({
+      hour: t.getHours(),
+      waveHeight: M.wave_height[i],
+      swellDir: M.wave_direction[i],
+      period: M.wave_period[i],
+      windSpeed: W.wind_speed_10m[i],
+      windDir: W.wind_direction_10m[i],
+      tideHeight: M.sea_level_height_msl[i],
+      tidePercentile: tidePercentile(M.sea_level_height_msl[i], dayRange)
+    });
+  }
+
+  return { tideExtremes, hourlyData };
+}
+
+function renderSummary() {
+  const wrap = document.getElementById('summarySection');
+  const summary = buildDaySummary(selectedDay);
+  if(!summary) { wrap.innerHTML = ''; return; }
   const day = availableDays[selectedDay];
-  const dayEx = fc.tides.filter(e => {
-    const d = new Date(e.time);
-    return d.toDateString() === day.toDateString();
-  });
-  if(!dayEx.length) {
-    strip.style.display = 'block';
-    strip.innerHTML = `<div class="tide-strip-label">Mareas A Coruña</div><div style="color:var(--mid);font-size:12px;">Sin datos de marea para este día.</div>`;
-    return;
-  }
-  strip.style.display = 'block';
-  strip.innerHTML = `
-    <div class="tide-strip-label">Mareas A Coruña · ${day.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
+
+  const tideHTML = summary.tideExtremes.length ? `
     <div class="tide-events">
-      ${dayEx.map(e => {
-        const d = new Date(e.time);
-        const h = String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+      ${summary.tideExtremes.map(e => {
+        const h = String(e.time.getHours()).padStart(2,'0') + ':' + String(e.time.getMinutes()).padStart(2,'0');
         const isHigh = e.type === 1;
         return `<div class="tide-event">
           <span class="tide-event-icon ${isHigh?'high':'low'}">${isHigh?'▲':'▼'}</span>
-          <div class="tide-event-info">
+          <div>
             <div class="tide-event-type ${isHigh?'high':'low'}">${isHigh?'Pleamar':'Bajamar'}</div>
-            <div class="tide-event-data">${h} · ${e.height.toFixed(2)} m</div>
+            <div class="tide-event-time">${h}</div>
           </div>
         </div>`;
       }).join('')}
+    </div>` : '';
+
+  const hourlyHTML = `
+    <div class="hourly-table-wrap">
+      <div class="hourly-table">
+        ${summary.hourlyData.map(h => `
+          <div class="hourly-col">
+            <div class="hourly-col-hour">${String(h.hour).padStart(2,'0')}h</div>
+            <div class="hourly-row">
+              <div class="hourly-emoji">🌊</div>
+              <div class="hourly-val strong">${h.waveHeight!=null?h.waveHeight.toFixed(1)+'m':'—'}</div>
+              <div class="hourly-val">${h.period!=null?h.period.toFixed(0)+'s':''}</div>
+              <div class="hourly-val">${h.swellDir!=null?compass(h.swellDir):''}</div>
+            </div>
+            <div class="hourly-row" style="margin-top:6px;">
+              <div class="hourly-emoji">💨</div>
+              <div class="hourly-val strong">${h.windSpeed!=null?Math.round(h.windSpeed):'—'}</div>
+              <div class="hourly-val">km/h</div>
+              <div class="hourly-val">${h.windDir!=null?compass(h.windDir):''}</div>
+            </div>
+            <div class="hourly-row" style="margin-top:6px;">
+              <div class="hourly-emoji">${tideEmoji(h.tidePercentile)}</div>
+              <div class="hourly-val strong">${tideStateLabel(h.tidePercentile)}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>`;
+
+  wrap.innerHTML = `
+    <div class="summary-section">
+      <div class="summary-title">${day.toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'})}</div>
+      ${tideHTML}
+      ${hourlyHTML}
     </div>
   `;
 }
 
+// ============================================================
+// LISTA DE PLAYAS — solo las surfeables (puntuación ≥ 50)
+// ============================================================
 function render() {
   const container = document.getElementById('container');
+  const title = document.getElementById('beachesTitle');
   if(!Object.keys(allForecasts).length) return;
-  renderTideStrip();
+  renderSummary();
 
   const results = BEACHES.map(b => {
     const hours = getHourlyForDay(b, selectedDay);
     if(!hours.length) return null;
     const best = hours.reduce((a,c) => c.result.total > a.result.total ? c : a, hours[0]);
-    return {beach:b, hours, best};
+    return { beach:b, hours, best };
   }).filter(Boolean);
-  results.sort((a,b) => b.best.result.total - a.best.result.total);
 
-  if(!results.length) {
-    container.innerHTML = '<div class="loading">No hay datos de previsión para este día.</div>';
+  // SOLO playas surfeables (puntuación ≥ 50 en su mejor hora)
+  const surfable = results.filter(r => r.best.result.total >= 50);
+  surfable.sort((a,b) => b.best.result.total - a.best.result.total);
+
+  if(!surfable.length) {
+    title.style.display = 'block';
+    container.innerHTML = '<div class="no-beaches">Hoy no hay ninguna playa con condiciones surfeables. Comprueba otro día.</div>';
     return;
   }
 
-  container.innerHTML = results.map(({beach, hours, best}) => {
+  title.style.display = 'block';
+  container.innerHTML = surfable.map(({beach, hours, best}) => {
     const score = best.result.total;
     const c = clsScore(score);
     const label = clsLabel(score);
@@ -598,13 +538,12 @@ function render() {
       const cl = clsScore(s);
       const t = h.time.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});
       const isBest = h === best;
-      const th = h.conditions.tideHeight;
       return `<div class="hour-cell${isBest?' best':''}">
         <div class="hour-time">${t}</div>
         <div class="hour-score ${cl}">${s}</div>
         <div class="hour-detail">${h.conditions.waveHeight.toFixed(1)}m</div>
         <div class="hour-detail">${compass(h.conditions.windDir)} ${Math.round(h.conditions.windSpeed)}</div>
-        <div class="hour-tide-height">${th!=null?th.toFixed(1)+'m':'—'}</div>
+        <div class="hour-tide">${tideStateLabel(h.conditions.tidePercentile)}</div>
       </div>`;
     }).join('');
 
@@ -630,61 +569,57 @@ function render() {
   }).join('');
 }
 
-function toggleCard(id){const c=document.querySelector(`.beach-card[data-beach="${id}"]`);if(c)c.classList.toggle('expanded');}
+function toggleCard(id){
+  const c=document.querySelector(`.beach-card[data-beach="${id}"]`);
+  if(c)c.classList.toggle('expanded');
+}
 function renderDaySelector() {
-  const sel=document.getElementById('daySelector');
-  const dn=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
-  sel.innerHTML=availableDays.map((d,i)=>{
-    const name=i===0?'Hoy':dn[d.getDay()];
-    return`<button class="day-btn ${i===selectedDay?'active':''}" onclick="selectDay(${i})">
+  const sel = document.getElementById('daySelector');
+  const dn = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  sel.innerHTML = availableDays.map((d,i) => {
+    const name = i===0 ? 'Hoy' : dn[d.getDay()];
+    return `<button class="day-btn ${i===selectedDay?'active':''}" onclick="selectDay(${i})">
       <span class="day-name">${name}</span><span class="day-num">${d.getDate()}</span></button>`;
   }).join('');
 }
-function selectDay(i){selectedDay=i;renderDaySelector();render();}
+function selectDay(i){ selectedDay=i; renderDaySelector(); render(); }
 
 async function init() {
   try {
-    const now=new Date();
-    const later=new Date(now.getTime()+6*86400000);
-    const uniquePorts=[...new Set(BEACHES.map(b=>b.tidePort))];
-    const tidesByPort={};
-
-    // Cargar mareas
-    await Promise.all(uniquePorts.map(async p=>{
-      tidesByPort[p]=await fetchTides(p,now,later);
+    const results = await Promise.allSettled(BEACHES.map(async b => {
+      const fc = await fetchAllForBeach(b);
+      if(fc.marine?.hourly?.time && fc.marine.hourly.sea_level_height_msl) {
+        fc.tideExtremes = findTideExtremes(fc.marine.hourly.time, fc.marine.hourly.sea_level_height_msl);
+        fc.dailyTideRanges = buildDailyTideRanges(fc.marine.hourly.time, fc.marine.hourly.sea_level_height_msl);
+      } else {
+        fc.tideExtremes = [];
+        fc.dailyTideRanges = {};
+      }
+      allForecasts[b.id] = fc;
     }));
+    results.forEach((r,i) => { if(r.status === 'rejected') console.error(`Error ${BEACHES[i].name}:`, r.reason); });
 
-    // Cargar previsión marina + viento
-    await Promise.allSettled(BEACHES.map(async b=>{
-      const fc=await fetchForecast(b);
-      fc.tides=tidesByPort[b.tidePort]||[];
-      allForecasts[b.id]=fc;
-    }));
+    let times = null;
+    for(const b of BEACHES) {
+      const fc = allForecasts[b.id];
+      if(fc?.marine?.hourly?.time) { times = fc.marine.hourly.time; break; }
+    }
+    if(!times) throw new Error('Ninguna playa devolvió datos válidos');
 
-    // Construir días
-    let times=null;
-    for(const b of BEACHES){
-      const fc=allForecasts[b.id];
-      if(fc?.marine?.hourly?.time){times=fc.marine.hourly.time;break;}
-    }
-    if(!times){
-      // Fallback: 5 días desde hoy
-      times=[];
-      for(let d=0;d<5;d++){const day=new Date(now.getTime()+d*86400000);day.setHours(12,0,0,0);times.push(day.toISOString());}
-    }
-    const daySet=new Set();
-    times.forEach(t=>{daySet.add(new Date(t).toDateString());});
-    availableDays=Array.from(daySet).map(s=>new Date(s)).sort((a,b)=>a-b).slice(0,5);
+    const daySet = new Set();
+    times.forEach(t => daySet.add(new Date(t).toDateString()));
+    availableDays = Array.from(daySet).map(s => new Date(s)).sort((a,b) => a-b).slice(0,5);
 
     renderDaySelector();
     render();
   } catch(err) {
     console.error(err);
-    document.getElementById('container').innerHTML=`<div class="error-msg">No se pudo cargar la previsión.<br><small>${err.message||err}</small></div>`;
+    document.getElementById('container').innerHTML =
+      `<div class="error-msg">No se pudo cargar la previsión.<br><small>${err.message||err}</small></div>`;
   }
 }
-window.toggleCard=toggleCard;
-window.selectDay=selectDay;
+window.toggleCard = toggleCard;
+window.selectDay = selectDay;
 init();
 </script>
 
